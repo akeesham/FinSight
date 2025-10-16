@@ -1,39 +1,32 @@
-// ================================
-// Loan Application JS (Frontend)
-// ================================
+// Section switching
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => sec.style.display = 'none');
+      document.getElementById(sectionId).style.display = 'block';
+      document.getElementById('output').innerText = ''; // clear output
+      document.getElementById('output').className = '';
+    }
 
-// Section switching (global function)
-function showSection(sectionId) {
-  const sections = document.querySelectorAll('.section');
-  sections.forEach(sec => sec.style.display = 'none');
-  document.getElementById(sectionId).style.display = 'block';
-  const output = document.getElementById('output');
-  output.innerText = '';
-  output.className = '';
-}
+    // ===== Pega API config =====
+    const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
+    const clientId = "14385166056247839722";
+    const clientSecret = "65B93F27BE2ED08E0123DB7A4BFAA751";
 
-// ================================
-// Navbar event listeners
-// ================================
-document.getElementById('navHome').addEventListener('click', () => showSection('home'));
-document.getElementById('navCreateLoan').addEventListener('click', () => showSection('createLoan'));
-document.getElementById('navGetLoan').addEventListener('click', () => showSection('getLoan'));
+    async function getAccessToken() {
+      const response = await fetch(tokenUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          grant_type: "client_credentials",
+          client_id: clientId,
+          client_secret: clientSecret
+        })
+      });
 
-// ================================
-// Button event listeners
-// ================================
-document.getElementById('btnCreateLoan').addEventListener('click', createLoanApplication);
-document.getElementById('btnGetLoan').addEventListener('click', getLoanApplicationDetails);
-
-// ================================
-// Fetch Access Token via Netlify Function
-// ================================
-async function getAccessToken() {
-  const response = await fetch("/netlify/functions/getAccessToken");
-  if (!response.ok) throw new Error("Failed to get access token");
-  const data = await response.json();
-  return data.access_token;
-}
+      if (!response.ok) throw new Error("Failed to get access token");
+      const data = await response.json();
+      return data.access_token;
+    }
 
 // ================================
 // Create Loan Application
@@ -136,4 +129,3 @@ async function getLoanApplicationDetails() {
     output.innerText = "❌ Error: " + error.message;
   }
 }
-
