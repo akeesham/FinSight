@@ -38,10 +38,17 @@
 async function createLoanApplication() {
   const output = document.getElementById("output");
   const loanAmount = document.getElementById("loanAmount").value.trim();
+  const monthlyIncome = document.getElementById("monthlyIncome").value.trim();
 
   if (!loanAmount || parseInt(loanAmount) <= 0) {
     output.className = "error";
-    output.innerText = "Please enter a valid Loan Amount greater than 0.";
+    output.innerText = "Please enter a Loan Amount greater than 0.";
+    return;
+  }
+
+  if (!monthlyIncome || parseInt(monthlyIncome) <= 0) {
+    output.className = "error";
+    output.innerText = "Please enter a Monthly Income greater than 0.";
     return;
   }
 
@@ -51,9 +58,13 @@ async function createLoanApplication() {
   try {
     const token = await getAccessToken();
     const url = "https://bn5fuxee.pegace.net/prweb/app/fin-sight/api/application/v2/cases";
+    
     const payload = {
-      caseTypeID: caseTypeID,
-      content: { LoanAmountRequested: parseInt(loanAmount) }
+      caseTypeID: caseTypeID,  // hardcoded
+      content: {
+        LoanAmountRequested: parseInt(loanAmount),
+        MonthlyIncome: parseInt(monthlyIncome)
+      }
     };
 
     const response = await fetch(url, {
@@ -74,12 +85,14 @@ async function createLoanApplication() {
         <tr><td>Loan Application ID:</td><td>${data.ID || data.caseID}</td></tr>
         <tr><td>Status:</td><td>${data.status || "New"}</td></tr>
         <tr><td>Loan Amount:</td><td>${loanAmount}</td></tr>
+        <tr><td>Monthly Income:</td><td>${monthlyIncome}</td></tr>
       </table>`;
   } catch (error) {
     output.className = "error";
     output.innerText = "❌ Error: " + error.message;
   }
 }
+
 
 // ================================
 // Get Loan Application Details
