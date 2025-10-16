@@ -8,9 +8,17 @@
     }
 
     // ===== Pega API config =====
-    const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
-    const clientId = "14385166056247839722";
-    const clientSecret = "65B93F27BE2ED08E0123DB7A4BFAA751";
+    
+    //const clientId = "14385166056247839722";
+    //const clientSecret = "65B93F27BE2ED08E0123DB7A4BFAA751";
+	//const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
+	
+	import fetch from "node-fetch";
+
+	export async function handler(event, context) {
+	const clientId = process.env.ClientID;
+	const clientSecret = process.env.ClientSecret;
+	const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
 
     async function getAccessToken() {
       const response = await fetch(tokenUrl, {
