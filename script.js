@@ -29,7 +29,7 @@ document.getElementById('btnGetLoan').addEventListener('click', getLoanApplicati
 // Fetch Access Token via Netlify Function
 // ================================
 async function getAccessToken() {
-  const response = await fetch("/.netlify/functions/getAccessToken");
+  const response = await fetch("/netlify/functions/getAccessToken");
   if (!response.ok) throw new Error("Failed to get access token");
   const data = await response.json();
   return data.access_token;
@@ -136,3 +136,4 @@ async function getLoanApplicationDetails() {
     output.innerText = "❌ Error: " + error.message;
   }
 }
+
