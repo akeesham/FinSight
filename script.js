@@ -7,10 +7,14 @@
       document.getElementById('output').className = '';
     }
 
+	// Hardcoded Case Type ID
+	const caseTypeID = "MyOrg-FinSight-Work-LoanOrigination";
+
     // ===== Pega API config =====
     const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
     const clientId = "14385166056247839722";
     const clientSecret = "65B93F27BE2ED08E0123DB7A4BFAA751";
+	
 
     async function getAccessToken() {
       const response = await fetch(tokenUrl, {
@@ -33,12 +37,11 @@
 // ================================
 async function createLoanApplication() {
   const output = document.getElementById("output");
-  const caseTypeID = document.getElementById("caseTypeID").value.trim();
   const loanAmount = document.getElementById("loanAmount").value.trim();
 
-  if (!caseTypeID || !loanAmount || parseInt(loanAmount) <= 0) {
+  if (!loanAmount || parseInt(loanAmount) <= 0) {
     output.className = "error";
-    output.innerText = "Please enter a valid Case Type ID and Loan Amount greater than 0.";
+    output.innerText = "Please enter a valid Loan Amount greater than 0.";
     return;
   }
 
