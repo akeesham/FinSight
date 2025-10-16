@@ -18,7 +18,7 @@
 	export async function handler(event, context) {
 	const clientId = process.env.ClientID;
 	const clientSecret = process.env.ClientSecret;
-	const tokenUrl = "https://bn5fuxee.pegace.net/prweb/PRRestService/oauth2/v1/token";
+	const tokenUrl = process.env.TokenURL;
 
     async function getAccessToken() {
       const response = await fetch(tokenUrl, {
@@ -134,3 +134,4 @@
         output.innerText = "❌ Error: " + error.message;
       }
     }
+
