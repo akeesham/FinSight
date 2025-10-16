@@ -81,8 +81,10 @@
     async function getLoanApplicationDetails() {
       const output = document.getElementById("output");
       const caseID = document.getElementById("caseID").value.trim();
+	  
+	  const caseKey = "MYORG-FINSIGHT-WORK " + caseID;
 
-      if (!caseID) {
+      if (!caseKey) {
         output.className = "error";
         output.innerText = "Please enter a Loan Application ID.";
         return;
@@ -93,7 +95,7 @@
 
       try {
         const token = await getAccessToken();
-        const url = `https://bn5fuxee.pegace.net/prweb/app/fin-sight/api/application/v2/cases/${caseID}?viewType=none`;
+        const url = `https://bn5fuxee.pegace.net/prweb/app/fin-sight/api/application/v2/cases/${caseKey}?viewType=none`;
 
         const response = await fetch(url, {
           method: "GET",
